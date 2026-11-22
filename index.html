@@ -50,8 +50,11 @@ mask:linear-gradient(#000 0 0) top/100% 24px no-repeat,radial-gradient(circle at
 .hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(20px,4vw,56px);align-items:center;padding-top:clamp(20px,4vw,48px);padding-bottom:clamp(28px,4vw,56px)}
 .hero p.lead{font-size:18px;color:var(--muted);max-width:30em;margin:18px 0 26px}
 .hero .cta{display:flex;flex-wrap:wrap;gap:12px}
-.window{position:relative;aspect-ratio:1/0.86;border-radius:28px;background:radial-gradient(circle at 70% 30%,color-mix(in srgb,var(--gold) 55%,transparent),transparent 60%),var(--panel);overflow:hidden;box-shadow:var(--shadow)}
-.window svg{position:absolute;inset:0;width:100%;height:100%}.window .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.credit{position:absolute;left:12px;bottom:12px;background:rgba(20,8,14,.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px}
+.mosaic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tile{position:relative;aspect-ratio:7/6;border:0;padding:0;border-radius:22px;overflow:hidden;background:var(--panel);box-shadow:0 6px 18px light-dark(rgba(60,10,35,.08),rgba(0,0,0,.35))}
+.tile svg,.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.tile img{transition:transform .5s}.tile:hover img{transform:scale(1.04)}
+.tile span{position:absolute;left:10px;bottom:10px;background:var(--bg);color:var(--ink);font-weight:800;font-size:14px;padding:7px 12px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+
 .trust{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .trust div{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;gap:12px;align-items:center}
 .trust svg{flex:none;width:34px;height:34px}.trust b{display:block}.trust span{font-size:13px;color:var(--muted)}
@@ -124,7 +127,7 @@ table input,table select{width:100%;min-height:40px;border:1px solid var(--line)
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-weight:700;z-index:50;transition:transform .3s}
 .toast.show{transform:translate(-50%,0)}.toast:not(.show){visibility:hidden;transition:transform .3s,visibility 0s .3s}
 @media(max-width:900px){nav.main{display:none}.trust{grid-template-columns:repeat(2,minmax(0,1fr))}.policies{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:640px){.hero{grid-template-columns:1fr}.window{order:-1}.qv{grid-template-columns:1fr}.qv .thumb{border-radius:24px 24px 0 0;max-height:300px}footer .cols{grid-template-columns:1fr}.trust{gap:10px}.trust div{flex-direction:column;align-items:flex-start;gap:8px;padding:14px}.cartbtn .lbl{display:none}.brand span{font-size:17px}
+@media(max-width:640px){.hero{grid-template-columns:1fr}.mosaic{order:-1;gap:10px}.tile span{font-size:13px;padding:6px 10px}.qv{grid-template-columns:1fr}.qv .thumb{border-radius:24px 24px 0 0;max-height:300px}footer .cols{grid-template-columns:1fr}.trust{gap:10px}.trust div{flex-direction:column;align-items:flex-start;gap:8px;padding:14px}.cartbtn .lbl{display:none}.brand span{font-size:17px}
 .stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;color:var(--muted);font-size:12px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -147,11 +150,11 @@ table input,table select{width:100%;min-height:40px;border:1px solid var(--line)
   <section class="wrap hero">
     <div>
       <h1>Everyday things with a little more colour</h1>
-      <p class="lead">Home, kitchen, fashion and gadgets, picked by hand and delivered to your door anywhere in Pakistan. Pay cash when it arrives.</p>
+      <p class="lead">Home, fashion, health and electronics, picked by hand and delivered to your door anywhere in Pakistan. Pay cash when it arrives.</p>
       <div class="cta"><a class="btn" href="#shop">Start shopping</a><a class="btn ghost" href="#delivery">How delivery works</a></div>
       <p class="note" style="margin-top:18px">Demo store: products, prices and the store name are samples until the range is chosen.</p>
     </div>
-    <div class="window"><svg id="heroArt" viewBox="0 0 400 344" aria-hidden="true"></svg><img class="photo" src="https://images.unsplash.com/photo-1762970782860-575f62ba05a8?auto=format&fit=crop&w=1100&q=75" alt="A market stall in Lahore with colourful handmade crafts" fetchpriority="high"><span class="credit">Lahore · photo by Aman Arshad on Unsplash</span></div>
+    <div class="mosaic" role="group" aria-label="Shop by category"><button class="tile" data-cat="Home" data-art="lamp" data-col="#f2a900"><img src="https://images.unsplash.com/photo-1592195986398-5484c0890b74?auto=format&fit=crop&w=560&h=480&q=72" alt=""><span>Home &amp; kitchen →</span></button><button class="tile" data-cat="Fashion" data-art="bag" data-col="#8a4b22"><img src="https://images.unsplash.com/photo-1585488433963-2e35fb083e52?auto=format&fit=crop&w=560&h=480&q=72" alt=""><span>Fashion →</span></button><button class="tile" data-cat="Health" data-art="bottle" data-col="#0b6e75"><img src="https://images.unsplash.com/photo-1741896136777-deb999cab264?auto=format&fit=crop&w=560&h=480&q=72" alt=""><span>Health &amp; beauty →</span></button><button class="tile" data-cat="Electronics" data-art="buds" data-col="#3b3f8f"><img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=560&h=480&q=72" alt=""><span>Electronics →</span></button></div>
   </section>
 
   <section class="wrap">
@@ -202,7 +205,7 @@ table input,table select{width:100%;min-height:40px;border:1px solid var(--line)
 
 <footer>
   <div class="wrap cols">
-    <div><div class="brand" style="color:inherit"><i aria-hidden="true"></i><span class="bn">Rang Bazaar</span></div><p class="note" style="margin-top:12px">Everyday things with colour, delivered all over Pakistan.</p><p class="note">Product photos from Unsplash: Aman Arshad, wu yi, Nathan Dumlao, Yerin SEO, Trình Minh Thư, TheRegisti, Stephanie Sarlos, pmv chamara, Stanislav, Omid Armin, Deconovo, Yosuke Ota, NOMAD GULL.</p></div>
+    <div><div class="brand" style="color:inherit"><i aria-hidden="true"></i><span class="bn">Rang Bazaar</span></div><p class="note" style="margin-top:12px">Everyday things with colour, delivered all over Pakistan.</p><p class="note">Product photos from Unsplash: wu yi, Maria Lupan, Pavlo Talpa, Nathan Dumlao, Yerin SEO, Trình Minh Thư, TheRegisti, Stephanie Sarlos, pmv chamara, Stanislav, Omid Armin, Deconovo, Yosuke Ota, NOMAD GULL.</p></div>
     <div><b>Shop</b><a href="#shop">All products</a><a href="#delivery">Delivery &amp; returns</a><a href="#faq">Help</a></div>
     <div><b>Store</b><a href="#admin">Store admin</a><span class="note" id="waText">WhatsApp: number coming soon</span></div>
   </div>
@@ -227,22 +230,24 @@ table input,table select{width:100%;min-height:40px;border:1px solid var(--line)
 {
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const S={get(k,d){try{const v=localStorage.getItem('rb2_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('rb2_'+k,JSON.stringify(v))}catch(e){}}};
+const S={get(k,d){try{const v=localStorage.getItem('rb3_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('rb3_'+k,JSON.stringify(v))}catch(e){}}};
 
 const SAMPLE=[
  {id:1,img:'1592195986398-5484c0890b74',name:'Brass table lamp',cat:'Home',price:6500,was:7800,stock:8,art:'lamp',col:'#f2a900',sold:14},
  {id:2,img:'1522120573867-e574959f84c8',name:'Hand-glazed mugs, set of 2',cat:'Kitchen',price:2200,was:0,stock:20,art:'mug',col:'#0b6e75',sold:31},
  {id:3,img:'1744161116428-5ba8e96c8ee2',name:'Ajrak print scarf',cat:'Fashion',price:1800,was:2400,stock:15,art:'scarf',col:'#a3142e',sold:22},
  {id:4,img:'1585488433963-2e35fb083e52',name:'Leather crossbody bag',cat:'Fashion',price:4900,was:0,stock:6,art:'bag',col:'#8a4b22',sold:9},
- {id:5,img:'1606220945770-b5b6c2c55bf1',name:'Wireless earbuds',cat:'Gadgets',price:3990,was:4990,stock:12,art:'buds',col:'#3b3f8f',sold:27},
+ {id:5,img:'1606220945770-b5b6c2c55bf1',name:'Wireless earbuds',cat:'Electronics',price:3990,was:4990,stock:12,art:'buds',col:'#3b3f8f',sold:27},
  {id:6,img:'1720468750651-71bf110a05e5',name:'Glass water bottles, set of 4',cat:'Kitchen',price:2400,was:0,stock:30,art:'bottle',col:'#0b6e75',sold:18},
  {id:7,img:'1643122966676-29e8597257f7',name:'Scented soy candle',cat:'Home',price:1450,was:0,stock:3,art:'candle',col:'#c2185b',sold:11},
  {id:8,img:'1628678172909-13a7209c7d62',name:'Minimal analogue watch',cat:'Fashion',price:5500,was:6500,stock:5,art:'watch',col:'#22141c',sold:7},
- {id:9,img:'1587133454235-762b65c9f5c0',name:'Power bank, 10,000 mAh',cat:'Gadgets',price:3200,was:0,stock:14,art:'power',col:'#c2185b',sold:20},
+ {id:9,img:'1587133454235-762b65c9f5c0',name:'Power bank, 10,000 mAh',cat:'Electronics',price:3200,was:0,stock:14,art:'power',col:'#c2185b',sold:20},
  {id:10,img:'1616735553951-5aec605cfad0',name:'Block-print cushion covers',cat:'Home',price:2600,was:0,stock:10,art:'cushion',col:'#f2a900',sold:6},
  {id:11,img:'1697294872375-9942fd94d2a7',name:'Glass spice jars, set of 3',cat:'Kitchen',price:2900,was:3400,stock:9,art:'jars',col:'#a3142e',sold:4},
+ {id:13,img:'1741896136777-deb999cab264',name:'Skincare essentials set',cat:'Health',price:3500,was:4200,stock:10,art:'bottle',col:'#0b6e75',sold:12},
+ {id:14,img:'1764694071462-db50e50a3925',name:'Body mist trio',cat:'Health',price:2800,was:0,stock:8,art:'jars',col:'#3b3f8f',sold:8},
  {id:12,img:'1756752945253-d82a638c2d51',name:'Embroidered table runner',cat:'Home',price:2200,was:0,stock:12,art:'cushion',col:'#a3142e',sold:2}];
-const DESC={Home:'Made to brighten a corner and last for years. Packed carefully so it reaches you in perfect shape.',Kitchen:'Sturdy, easy to clean and good-looking enough to leave out on the counter.',Fashion:'Picked for everyday wear, with quality you can feel the moment you open the parcel.',Gadgets:'Reliable, tested before dispatch and easy to set up out of the box.'};
+const DESC={Home:'Made to brighten a corner and last for years. Packed carefully so it reaches you in perfect shape.',Kitchen:'Sturdy, easy to clean and good-looking enough to leave out on the counter.',Health:'Gentle, everyday care, sealed and stored properly until it reaches you.',Fashion:'Picked for everyday wear, with quality you can feel the moment you open the parcel.',Electronics:'Reliable, tested before dispatch and easy to set up out of the box.'};
 const DEF={name:'Rang Bazaar',wa:'',fee:250,feeOther:350,free:3000,aed:76,usd:280};
 const CITIES=['Karachi','Lahore','Islamabad','Rawalpindi','Faisalabad','Multan','Peshawar','Quetta','Hyderabad','Gujranwala','Sialkot','Sukkur','Bahawalpur','Sargodha','Abbottabad','Mardan','Larkana','Gwadar'];
 
@@ -278,18 +283,9 @@ function art(kind,c){
 
 const pic=p=>art(p.art,p.col)+(p.img?`<img src="https://images.unsplash.com/photo-${p.img}?auto=format&fit=crop&w=600&h=600&q=70" alt="${esc(p.name)}" loading="lazy">`:'');
 document.addEventListener('error',e=>{if(e.target.tagName==='IMG')e.target.remove()},true);
-/* hero */
-$('#heroArt').innerHTML=`<defs><linearGradient id="hb" x1="0" x2="1"><stop offset="0" stop-color="var(--pink)"/><stop offset="1" stop-color="var(--pinkd)"/></linearGradient></defs>
-<rect x="0" y="272" width="400" height="72" fill="var(--teal)" opacity=".9"/><rect x="0" y="272" width="400" height="8" fill="#000" opacity=".12"/>
-<ellipse cx="200" cy="282" rx="120" ry="12" fill="#000" opacity=".14"/>
-<path d="M150 108c0-60 100-60 100 0" fill="none" stroke="var(--teal)" stroke-width="12" stroke-linecap="round"/>
-<path d="M118 108h164l-14 172H132z" fill="url(#hb)"/><path d="M118 108h40l-10 172h-16z" fill="#fff" opacity=".16"/>
-<path d="M140 150h120M137 190h126M134 230h132" stroke="#f2a900" stroke-width="5" stroke-dasharray="2 12" stroke-linecap="round"/>
-<g transform="translate(18 150) rotate(-8)"><rect width="100" height="100" rx="20" fill="var(--bg)"/><g transform="translate(6 6) scale(.73)">${art('lamp','#f2a900').replace(/<\/?svg[^>]*>/g,'')}</g></g>
-<g transform="translate(286 118) rotate(7)"><rect width="96" height="96" rx="20" fill="var(--bg)"/><g transform="translate(6 6) scale(.7)">${art('scarf','#a3142e').replace(/<\/?svg[^>]*>/g,'')}</g></g>
-<g transform="translate(262 200) rotate(-4)"><rect width="84" height="84" rx="18" fill="var(--bg)"/><g transform="translate(5 5) scale(.62)">${art('mug','#0b6e75').replace(/<\/?svg[^>]*>/g,'')}</g></g>
-<circle cx="70" cy="70" r="7" fill="#f2a900"/><circle cx="340" cy="60" r="5" fill="var(--pink)"/><circle cx="96" cy="44" r="4" fill="var(--teal)"/>`;
-
+/* hero tiles: drawing behind each photo, shown if the photo can't load */
+document.querySelectorAll('.tile').forEach(t=>t.insertAdjacentHTML('afterbegin',art(t.dataset.art,t.dataset.col).replace('<svg ','<svg preserveAspectRatio="xMidYMid slice" ')));
+document.querySelectorAll('img').forEach(i=>{if(i.complete&&!i.naturalWidth)i.remove()});
 /* storefront */
 const cats=()=>['All',...new Set(products.map(p=>p.cat))];
 function renderChips(){$('#chips').innerHTML=cats().map(c=>`<button class="chip" data-cat="${esc(c)}" aria-pressed="${c===cat}">${esc(c)}</button>`).join('')}
@@ -392,7 +388,7 @@ function route(){document.querySelectorAll('dialog[open]').forEach(d=>d.close())
 /* events */
 document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t)return;const d=t.dataset;
  if('close' in d){t.closest('dialog')?.close();return}
- if(d.cat){cat=d.cat;renderChips();renderGrid()}
+ if(d.cat){cat=d.cat;renderChips();renderGrid();if(t.classList.contains('tile'))$('#shop').scrollIntoView()}
  if(d.add)add(+d.add);if(d.qv)quick(+d.qv);
  if(d.inc)add(+d.inc);
  if(d.dec){const l=cart.find(x=>x.id===+d.dec);l.qty--;if(l.qty<1)cart=cart.filter(x=>x!==l);save();renderCount();renderCart()}
