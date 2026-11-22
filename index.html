@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rang Bazaar</title>
+<meta name="description" content="Rang Bazaar — everyday things with colour, delivered all over Pakistan. Cash on delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: warm, lively Karachi shop — confident, friendly, never shouty.
+   IDEA: a bazaar stall: striped truck-art awning over a lit shop window.
+   PICTURE: scalloped awning across the top, a big shopping bag with goods spilling out.
+   COLOUR and TYPE: white ground, bazaar pink dominant, deep teal support, marigold accent; Unbounded + Manrope.
+   LAYOUT: awning band, hero, trust strip, shop grid with filters, policies, footer; admin on #admin. */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#15101a);--panel:light-dark(#fbf6f8,#1f1826);--line:light-dark(#eadfe5,#352b3d);
+--ink:light-dark(#22141c,#f6eef2);--muted:light-dark(#6d5a64,#b9a8b2);
+--pink:light-dark(#c2185b,#ff5c9d);--pinkd:light-dark(#8e0f42,#ff86b6);--teal:light-dark(#0b6e75,#46c2c0);--gold:#f2a900;
+--on:#fff;--shadow:0 10px 30px light-dark(rgba(60,10,35,.12),rgba(0,0,0,.45))}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.brand{font-family:Unbounded,Manrope,sans-serif;line-height:1.08;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,5.4vw,54px);font-weight:800}h2{font-size:clamp(24px,3.2vw,34px);font-weight:700}h3{font-size:17px;font-weight:700}
+a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(4vw,16px)}
+.band{padding-top:clamp(28px,5vw,72px);padding-bottom:clamp(28px,5vw,72px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:999px;border:0;background:var(--pink);color:var(--on);font-weight:800;text-decoration:none;transition:transform .15s,background .15s}
+.btn:hover{background:var(--pinkd)}.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}.btn.ghost:hover{border-color:var(--pink)}
+.btn.teal{background:var(--teal)}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.note{font-size:13px;color:var(--muted)}
+.notice{background:var(--teal);color:#fff;text-align:center;font-size:14px;font-weight:700;padding:8px 16px}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:14px;min-height:68px}
+.brand{font-size:20px;font-weight:800;text-decoration:none;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.brand i{width:30px;height:30px;border-radius:9px;background:conic-gradient(var(--pink) 0 25%,var(--gold) 0 50%,var(--teal) 0 75%,var(--pink) 0);display:block}
+nav.main{display:flex;gap:22px;margin-left:16px}nav.main a{text-decoration:none;font-weight:700;color:var(--muted)}nav.main a:hover{color:var(--ink)}
+.spacer{flex:1}
+select.cur{min-height:44px;border:2px solid var(--line);background:var(--bg);border-radius:999px;padding:0 12px;font-weight:700}
+.cartbtn{position:relative;min-height:44px;min-width:44px;border-radius:999px;border:0;background:var(--ink);color:var(--bg);font-weight:800;padding:0 16px;display:flex;align-items:center;gap:8px}
+.cartbtn b{background:var(--gold);color:#22141c;border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px}
+.awning{height:46px;background:repeating-linear-gradient(90deg,var(--pink) 0 48px,var(--gold) 48px 96px);
+-webkit-mask:linear-gradient(#000 0 0) top/100% 24px no-repeat,radial-gradient(circle at 24px 22px,#000 22px,transparent 23px) 0 0/48px 46px repeat-x;
+mask:linear-gradient(#000 0 0) top/100% 24px no-repeat,radial-gradient(circle at 24px 22px,#000 22px,transparent 23px) 0 0/48px 46px repeat-x}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(20px,4vw,56px);align-items:center;padding-top:clamp(20px,4vw,48px);padding-bottom:clamp(28px,4vw,56px)}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:30em;margin:18px 0 26px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+.window{position:relative;aspect-ratio:1/0.86;border-radius:28px;background:radial-gradient(circle at 70% 30%,color-mix(in srgb,var(--gold) 55%,transparent),transparent 60%),var(--panel);overflow:hidden;box-shadow:var(--shadow)}
+.window svg{position:absolute;inset:0;width:100%;height:100%}.window .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.credit{position:absolute;left:12px;bottom:12px;background:rgba(20,8,14,.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px}
+.trust{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.trust div{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;gap:12px;align-items:center}
+.trust svg{flex:none;width:34px;height:34px}.trust b{display:block}.trust span{font-size:13px;color:var(--muted)}
+.shophead{display:flex;flex-wrap:wrap;gap:14px;align-items:end;justify-content:space-between;margin-bottom:18px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:18px}
+.chip{flex:none;min-height:42px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--bg);font-weight:700}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input.search,select.sort{min-height:44px;border:2px solid var(--line);border-radius:999px;padding:0 16px;background:var(--bg);font-size:16px}
+input.search{width:min(260px,100%)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:18px}@media(max-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card .info{padding:10px 12px 12px}.card h3{font-size:14px}.price{font-size:15px;flex-wrap:wrap}.card .btn{padding:0 10px;font-size:14px}}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.thumb{position:relative;aspect-ratio:1;border:0;padding:0;display:block;width:100%;background:none}
+.thumb{overflow:hidden}.thumb svg{width:100%;height:100%;display:block}.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}.card:hover .thumb img{transform:scale(1.05)}.line .pic{position:relative;width:64px;height:64px;border-radius:14px;overflow:hidden}.line .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;left:12px;top:12px;background:var(--gold);color:#22141c;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px}
+.tag.out{background:var(--ink);color:var(--bg)}
+.card .info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cat{font-size:12px;color:var(--muted);font-weight:700}
+.price{display:flex;gap:8px;align-items:baseline;white-space:nowrap;font-weight:800;font-size:17px}
+.price s{color:var(--muted);font-weight:500;font-size:14px}
+.card .btn{margin-top:auto;min-height:44px;width:100%}
+.low{font-size:12px;color:var(--pink);font-weight:800}
+.empty{padding:40px;text-align:center;border:2px dashed var(--line);border-radius:22px;color:var(--muted)}
+.policies{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.policies article{background:var(--panel);border-radius:22px;padding:22px;border:1px solid var(--line)}
+.policies p{margin:8px 0 0;color:var(--muted)}
+details{border-bottom:1px solid var(--line);padding:14px 0}summary{font-weight:800;cursor:pointer;min-height:28px}details p{color:var(--muted);margin:8px 0 0}
+footer{background:var(--ink);color:var(--bg);margin-top:40px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;padding-top:40px;padding-bottom:40px}
+footer a{color:inherit;opacity:.85;text-decoration:none;display:block;padding:4px 0}footer a:hover{opacity:1}
+footer .note{color:inherit;opacity:.7}
+.wa{position:fixed;right:18px;bottom:18px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:var(--shadow);border:0}
+.wa svg{width:30px;height:30px}
+dialog{border:0;padding:0;background:var(--bg);color:var(--ink);box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(20,8,14,.55)}
+dialog.drawer{margin:0 0 0 auto;height:100dvh;max-height:100dvh;width:min(440px,100vw);display:none;flex-direction:column}
+dialog.drawer[open]{display:flex;animation:slide .25s ease}
+@keyframes slide{from{transform:translateX(40px);opacity:0}}
+dialog.modal{width:min(760px,94vw);border-radius:24px;max-height:92dvh}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+.x{width:44px;height:44px;border-radius:50%;border:0;background:var(--panel);font-size:22px;line-height:1}
+.dbody{padding:18px 20px;overflow:auto;flex:1}
+.dfoot{padding:18px 20px;border-top:1px solid var(--line);display:grid;gap:10px}
+.line{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.line svg{width:64px;height:64px;display:block}
+.qty{display:inline-flex;align-items:center;border:2px solid var(--line);border-radius:999px}
+.qty button{width:36px;height:36px;border:0;background:none;font-size:18px;font-weight:800}.qty span{min-width:26px;text-align:center;font-weight:800}
+.row{display:flex;justify-content:space-between;gap:12px}.row.total{font-weight:800;font-size:18px}
+.qv{display:grid;grid-template-columns:1fr 1fr}.qv .thumb{border-radius:24px 0 0 24px;overflow:hidden}.qv .body{padding:24px;display:flex;flex-direction:column;gap:12px}
+form.co{display:grid;gap:14px}label{display:grid;gap:6px;font-weight:700;font-size:14px}
+input.f,textarea.f,select.f{min-height:46px;border:2px solid var(--line);border-radius:14px;padding:10px 14px;background:var(--bg);font-size:16px;font-weight:500}
+input.f:focus,textarea.f:focus{border-color:var(--teal);outline:0}
+.pay{display:grid;gap:8px}.pay label{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:700}
+.pay label:has(input:checked){border-color:var(--pink);background:color-mix(in srgb,var(--pink) 7%,var(--bg))}
+.err{color:var(--pink);font-size:13px;font-weight:700;min-height:1em}
+.ok{text-align:center;display:grid;gap:12px;justify-items:center;padding:10px 0}
+/* admin */
+.admin{display:none}body.is-admin .admin{display:block}body.is-admin .store{display:none}
+.atabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpis div{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}.kpis b{display:block;font:800 clamp(20px,2.6vw,28px)/1.1 Unbounded,sans-serif;white-space:nowrap}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:18px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.n,th.n{text-align:right;white-space:nowrap}
+table input,table select{width:100%;min-height:40px;border:1px solid var(--line);border-radius:10px;padding:0 8px;background:var(--bg);font-size:15px}
+.bars div{display:grid;grid-template-columns:minmax(0,10em) 1fr auto;gap:10px;align-items:center;margin:8px 0;font-size:14px}
+.bars i{display:block;height:12px;border-radius:6px;background:var(--pink)}
+.scroll{overflow-x:auto}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-weight:700;z-index:50;transition:transform .3s}
+.toast.show{transform:translate(-50%,0)}.toast:not(.show){visibility:hidden;transition:transform .3s,visibility 0s .3s}
+@media(max-width:900px){nav.main{display:none}.trust{grid-template-columns:repeat(2,minmax(0,1fr))}.policies{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.hero{grid-template-columns:1fr}.window{order:-1}.qv{grid-template-columns:1fr}.qv .thumb{border-radius:24px 24px 0 0;max-height:300px}footer .cols{grid-template-columns:1fr}.trust{gap:10px}.trust div{flex-direction:column;align-items:flex-start;gap:8px;padding:14px}.cartbtn .lbl{display:none}.brand span{font-size:17px}
+.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;color:var(--muted);font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="notice" id="notice">Cash on delivery all over Pakistan · Free delivery on orders over Rs 3,000</div>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top" id="brandLink"><i aria-hidden="true"></i><span id="brandName">Rang Bazaar</span></a>
+    <nav class="main store" aria-label="Main"><a href="#shop">Shop</a><a href="#delivery">Delivery &amp; returns</a><a href="#faq">Help</a></nav>
+    <div class="spacer"></div>
+    <label class="sr" style="position:absolute;left:-9999px" for="cur">Currency</label>
+    <select class="cur" id="cur" aria-label="Currency"><option value="PKR">🇵🇰 PKR</option><option value="AED">🇦🇪 AED</option><option value="USD">🇺🇸 USD</option></select>
+    <button class="cartbtn store" id="openCart" aria-label="Open cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 8h14l-1.2 11H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="lbl">Cart</span><b id="count">0</b></button>
+  </div>
+</header>
+
+<main class="store" id="top">
+  <div class="awning" aria-hidden="true"></div>
+  <section class="wrap hero">
+    <div>
+      <h1>Everyday things with a little more colour</h1>
+      <p class="lead">Home, kitchen, fashion and gadgets, picked by hand and delivered to your door anywhere in Pakistan. Pay cash when it arrives.</p>
+      <div class="cta"><a class="btn" href="#shop">Start shopping</a><a class="btn ghost" href="#delivery">How delivery works</a></div>
+      <p class="note" style="margin-top:18px">Demo store: products, prices and the store name are samples until the range is chosen.</p>
+    </div>
+    <div class="window"><svg id="heroArt" viewBox="0 0 400 344" aria-hidden="true"></svg><img class="photo" src="https://images.unsplash.com/photo-1762970782860-575f62ba05a8?auto=format&fit=crop&w=1100&q=75" alt="A market stall in Lahore with colourful handmade crafts" fetchpriority="high"><span class="credit">Lahore · photo by Aman Arshad on Unsplash</span></div>
+  </section>
+
+  <section class="wrap">
+    <div class="trust">
+      <div><svg viewBox="0 0 40 40"><rect x="4" y="10" width="32" height="20" rx="4" fill="var(--teal)"/><circle cx="20" cy="20" r="5" fill="var(--gold)"/></svg><p style="margin:0"><b>Cash on delivery</b><span>Pay when it reaches you</span></p></div>
+      <div><svg viewBox="0 0 40 40"><rect x="3" y="12" width="22" height="16" rx="3" fill="var(--pink)"/><path d="M25 16h7l5 6v6H25z" fill="var(--gold)"/><circle cx="11" cy="30" r="4" fill="var(--ink)"/><circle cx="31" cy="30" r="4" fill="var(--ink)"/></svg><p style="margin:0"><b>Nationwide delivery</b><span>2–5 days, every city</span></p></div>
+      <div><svg viewBox="0 0 40 40"><path d="M20 5a15 15 0 1 1-14 10" fill="none" stroke="var(--teal)" stroke-width="5" stroke-linecap="round"/><path d="M3 8l3 8 8-3" fill="none" stroke="var(--gold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><p style="margin:0"><b>7-day returns</b><span>Unused, in original packing</span></p></div>
+      <div><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#25d366"/><path d="M14 14c0 7 5 12 12 12l2-3-4-2-2 2c-2-1-4-3-5-5l2-2-2-4z" fill="#fff"/></svg><p style="margin:0"><b>WhatsApp support</b><span>Real people, quick replies</span></p></div>
+    </div>
+  </section>
+
+  <section class="wrap band" id="shop">
+    <div class="shophead">
+      <h2>Shop the bazaar</h2>
+      <div class="tools">
+        <input class="search" id="q" type="search" placeholder="Search products" aria-label="Search products">
+        <select class="sort" id="sort" aria-label="Sort"><option value="pop">Popular</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="new">Newest</option></select>
+      </div>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Categories"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="wrap band" id="delivery" style="padding-top:0">
+    <h2>Delivery, returns and payment</h2>
+    <div class="policies">
+      <article><h3>Delivery</h3><p>We deliver all over Pakistan through trusted courier partners: 2–3 working days in Karachi, 3–5 working days in other cities. Delivery costs <span id="feeTxt">Rs 250 in Karachi and Rs 350 elsewhere</span>, and it's free on orders over <span id="freeTxt">Rs 3,000</span>. We call or WhatsApp you before dispatch to confirm your order.</p></article>
+      <article><h3>Returns</h3><p>Changed your mind? Return any unused item in its original packing within 7 days. If something arrives damaged, send us a photo on WhatsApp and we'll replace it.</p></article>
+      <article><h3>Payment</h3><p>Pay cash to the rider on delivery, or by JazzCash or Easypaisa when we confirm your order. Prices in AED or USD are shown for convenience; orders are charged in rupees.</p></article>
+    </div>
+  </section>
+
+  <section class="wrap band" id="faq" style="padding-top:0;max-width:860px">
+    <h2>Questions people ask</h2>
+    <details><summary>Which cities do you deliver to?</summary><p>All of Pakistan: Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, Peshawar, Quetta, Hyderabad and every other city and town our couriers reach. Cash on delivery is available everywhere.</p></details>
+    <details><summary>Why do you confirm orders on WhatsApp?</summary><p>A quick confirmation means your parcel leaves the same day and the rider knows exactly where to go.</p></details>
+    <details><summary>Can I open the parcel before paying?</summary><p>You can check the outer packing and the item count with the rider before you pay.</p></details>
+    <details><summary>How do I track my order?</summary><p>Message us on WhatsApp with your order number and we'll tell you where it is.</p></details>
+  </section>
+</main>
+
+<section class="admin wrap band" id="adminView">
+  <div class="shophead"><h2>Store admin</h2><a class="btn ghost" href="#top">Back to the shop</a></div>
+  <p class="note">Demo admin: changes are saved in this browser only. In the live store, this is the WooCommerce dashboard, shared by all partners.</p>
+  <div class="atabs" id="atabs"></div>
+  <div id="apanel"></div>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div><div class="brand" style="color:inherit"><i aria-hidden="true"></i><span class="bn">Rang Bazaar</span></div><p class="note" style="margin-top:12px">Everyday things with colour, delivered all over Pakistan.</p><p class="note">Product photos from Unsplash: Aman Arshad, wu yi, Nathan Dumlao, Yerin SEO, Trình Minh Thư, TheRegisti, Stephanie Sarlos, pmv chamara, Stanislav, Omid Armin, Deconovo, Yosuke Ota, NOMAD GULL.</p></div>
+    <div><b>Shop</b><a href="#shop">All products</a><a href="#delivery">Delivery &amp; returns</a><a href="#faq">Help</a></div>
+    <div><b>Store</b><a href="#admin">Store admin</a><span class="note" id="waText">WhatsApp: number coming soon</span></div>
+  </div>
+  <div class="wrap note" style="padding-bottom:24px">© <span id="yr"></span> <span class="bn">Rang Bazaar</span> · Karachi, Pakistan</div>
+</footer>
+
+<a class="wa store" id="waFloat" href="#" aria-label="Chat on WhatsApp"><svg viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.8.8a3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg></a>
+
+<dialog class="drawer" id="cartDlg" aria-label="Your cart">
+  <div class="dhead"><h3>Your cart</h3><button class="x" data-close aria-label="Close">×</button></div>
+  <div class="dbody" id="cartBody"></div>
+  <div class="dfoot" id="cartFoot"></div>
+</dialog>
+<dialog class="modal" id="qvDlg" aria-label="Product details"><div id="qvBody"></div></dialog>
+<dialog class="modal" id="coDlg" aria-label="Checkout" style="width:min(560px,94vw)">
+  <div class="dhead"><h3 id="coTitle">Checkout</h3><button class="x" data-close aria-label="Close">×</button></div>
+  <div class="dbody" id="coBody"></div>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const S={get(k,d){try{const v=localStorage.getItem('rb2_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('rb2_'+k,JSON.stringify(v))}catch(e){}}};
+
+const SAMPLE=[
+ {id:1,img:'1592195986398-5484c0890b74',name:'Brass table lamp',cat:'Home',price:6500,was:7800,stock:8,art:'lamp',col:'#f2a900',sold:14},
+ {id:2,img:'1522120573867-e574959f84c8',name:'Hand-glazed mugs, set of 2',cat:'Kitchen',price:2200,was:0,stock:20,art:'mug',col:'#0b6e75',sold:31},
+ {id:3,img:'1744161116428-5ba8e96c8ee2',name:'Ajrak print scarf',cat:'Fashion',price:1800,was:2400,stock:15,art:'scarf',col:'#a3142e',sold:22},
+ {id:4,img:'1585488433963-2e35fb083e52',name:'Leather crossbody bag',cat:'Fashion',price:4900,was:0,stock:6,art:'bag',col:'#8a4b22',sold:9},
+ {id:5,img:'1606220945770-b5b6c2c55bf1',name:'Wireless earbuds',cat:'Gadgets',price:3990,was:4990,stock:12,art:'buds',col:'#3b3f8f',sold:27},
+ {id:6,img:'1720468750651-71bf110a05e5',name:'Glass water bottles, set of 4',cat:'Kitchen',price:2400,was:0,stock:30,art:'bottle',col:'#0b6e75',sold:18},
+ {id:7,img:'1643122966676-29e8597257f7',name:'Scented soy candle',cat:'Home',price:1450,was:0,stock:3,art:'candle',col:'#c2185b',sold:11},
+ {id:8,img:'1628678172909-13a7209c7d62',name:'Minimal analogue watch',cat:'Fashion',price:5500,was:6500,stock:5,art:'watch',col:'#22141c',sold:7},
+ {id:9,img:'1587133454235-762b65c9f5c0',name:'Power bank, 10,000 mAh',cat:'Gadgets',price:3200,was:0,stock:14,art:'power',col:'#c2185b',sold:20},
+ {id:10,img:'1616735553951-5aec605cfad0',name:'Block-print cushion covers',cat:'Home',price:2600,was:0,stock:10,art:'cushion',col:'#f2a900',sold:6},
+ {id:11,img:'1697294872375-9942fd94d2a7',name:'Glass spice jars, set of 3',cat:'Kitchen',price:2900,was:3400,stock:9,art:'jars',col:'#a3142e',sold:4},
+ {id:12,img:'1756752945253-d82a638c2d51',name:'Embroidered table runner',cat:'Home',price:2200,was:0,stock:12,art:'cushion',col:'#a3142e',sold:2}];
+const DESC={Home:'Made to brighten a corner and last for years. Packed carefully so it reaches you in perfect shape.',Kitchen:'Sturdy, easy to clean and good-looking enough to leave out on the counter.',Fashion:'Picked for everyday wear, with quality you can feel the moment you open the parcel.',Gadgets:'Reliable, tested before dispatch and easy to set up out of the box.'};
+const DEF={name:'Rang Bazaar',wa:'',fee:250,feeOther:350,free:3000,aed:76,usd:280};
+const CITIES=['Karachi','Lahore','Islamabad','Rawalpindi','Faisalabad','Multan','Peshawar','Quetta','Hyderabad','Gujranwala','Sialkot','Sukkur','Bahawalpur','Sargodha','Abbottabad','Mardan','Larkana','Gwadar'];
+
+let products=S.get('products',SAMPLE),settings={...DEF,...S.get('settings',{})},cart=S.get('cart',[]),orders=S.get('orders',[]);
+let cur=S.get('cur',null);
+if(!cur){const tz=(Intl.DateTimeFormat().resolvedOptions().timeZone||'');cur=tz==='Asia/Dubai'?'AED':/^America\//.test(tz)?'USD':'PKR'}
+let cat='All',q='',sort='pop',atab='overview';
+
+const money=pkr=>{if(cur==='AED')return'AED '+(pkr/settings.aed).toFixed(2);if(cur==='USD')return'$'+(pkr/settings.usd).toFixed(2);return'Rs '+Math.round(pkr).toLocaleString('en-PK')};
+const rs=pkr=>'Rs '+Math.round(pkr).toLocaleString('en-PK');
+const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200)};
+const save=()=>{S.set('products',products);S.set('settings',settings);S.set('cart',cart);S.set('orders',orders)};
+
+/* product pictures */
+function art(kind,c){
+ const L='rgba(255,255,255,.55)',D='rgba(0,0,0,.2)';let g='';
+ switch(kind){
+ case'lamp':g=`<path d="M40 30h40l14 34H26z" fill="${c}"/><path d="M40 30h12l-8 34H26z" fill="${L}"/><rect x="57" y="64" width="6" height="28" fill="${D}"/><ellipse cx="60" cy="94" rx="22" ry="6" fill="${c}"/>`;break;
+ case'mug':g=`<rect x="24" y="42" width="38" height="46" rx="8" fill="${c}"/><path d="M62 52h6a9 9 0 0 1 0 18h-6" fill="none" stroke="${c}" stroke-width="6"/><rect x="62" y="48" width="36" height="40" rx="8" fill="${c}" opacity=".7"/><rect x="28" y="46" width="8" height="38" rx="4" fill="${L}"/><path d="M38 34c-4-6 4-8 0-14M48 34c-4-6 4-8 0-14" stroke="${D}" stroke-width="3" fill="none" stroke-linecap="round"/>`;break;
+ case'scarf':{g=`<path d="M30 24h60v58l-10 14-10-14-10 14-10-14-10 14-10-14z" fill="${c}"/>`;for(let y=34;y<80;y+=14)for(let x=40;x<90;x+=14)g+=`<path d="M${x} ${y-5}l5 5-5 5-5-5z" fill="#1d2b5a"/><circle cx="${x}" cy="${y}" r="1.6" fill="#fff"/>`;g+=`<rect x="30" y="24" width="60" height="5" fill="${D}"/>`}break;
+ case'bag':g=`<path d="M40 50c0-26 40-26 40 0" fill="none" stroke="${c}" stroke-width="5"/><rect x="26" y="48" width="68" height="46" rx="10" fill="${c}"/><path d="M26 58h68v8c-20 8-48 8-68 0z" fill="${D}"/><rect x="55" y="64" width="10" height="8" rx="2" fill="${L}"/>`;break;
+ case'buds':g=`<rect x="34" y="52" width="52" height="38" rx="19" fill="${c}"/><path d="M34 66h52" stroke="${D}" stroke-width="3"/><circle cx="44" cy="40" r="9" fill="#f3f0f7"/><rect x="41" y="40" width="6" height="16" rx="3" fill="#f3f0f7"/><circle cx="76" cy="40" r="9" fill="#f3f0f7"/><rect x="73" y="40" width="6" height="16" rx="3" fill="#f3f0f7"/>`;break;
+ case'bottle':g=`<rect x="50" y="18" width="20" height="12" rx="3" fill="${D}"/><rect x="44" y="28" width="32" height="68" rx="13" fill="${c}"/><rect x="49" y="36" width="6" height="52" rx="3" fill="${L}"/>`;break;
+ case'candle':g=`<path d="M60 22c7 8 6 16 0 18-6-2-7-10 0-18z" fill="#f2a900"/><rect x="59" y="38" width="2" height="10" fill="#22141c"/><rect x="34" y="46" width="52" height="48" rx="10" fill="${c}"/><rect x="34" y="62" width="52" height="16" fill="${L}"/>`;break;
+ case'watch':g=`<rect x="50" y="16" width="20" height="88" rx="6" fill="${c}"/><circle cx="60" cy="60" r="24" fill="#f2a900"/><circle cx="60" cy="60" r="19" fill="#fff"/><path d="M60 60V47M60 60l9 5" stroke="#22141c" stroke-width="3" stroke-linecap="round"/>`;break;
+ case'power':g=`<rect x="38" y="22" width="44" height="76" rx="10" fill="${c}"/><path d="M64 36l-12 26h10l-4 22 14-30H62z" fill="#f2a900"/><circle cx="60" cy="90" r="2" fill="${L}"/>`;break;
+ case'cushion':g=`<path d="M30 34q30-8 60 0q8 26 0 52q-30 8-60 0q-8-26 0-52z" fill="${c}"/><circle cx="60" cy="60" r="14" fill="none" stroke="#a3142e" stroke-width="4"/><circle cx="60" cy="60" r="4" fill="#a3142e"/><path d="M40 44l6 6M80 44l-6 6M40 76l6-6M80 76l-6-6" stroke="#a3142e" stroke-width="3"/>`;break;
+ case'jars':g=[30,52,74].map((x,i)=>`<rect x="${x}" y="${44-i*4}" width="18" height="${48+i*4}" rx="5" fill="rgba(255,255,255,.75)"/><rect x="${x}" y="${66}" width="18" height="${26}" rx="4" fill="${['#c2185b','#f2a900','#8a4b22'][i]}"/><rect x="${x-1}" y="${38-i*4}" width="20" height="8" rx="3" fill="${c}"/>`).join('');break;
+ case'stand':g=`<path d="M36 92h48l-6-8H42z" fill="${D}"/><rect x="46" y="24" width="30" height="58" rx="6" fill="${c}" transform="rotate(-12 61 53)"/><rect x="50" y="29" width="22" height="46" rx="3" fill="#bfe8ea" transform="rotate(-12 61 53)"/>`;break;
+ }
+ return`<svg viewBox="0 0 120 120" role="img" aria-hidden="true"><rect width="120" height="120" fill="${c}" opacity=".13"/><circle cx="92" cy="22" r="26" fill="${c}" opacity=".1"/><ellipse cx="60" cy="100" rx="34" ry="5" fill="#000" opacity=".08"/>${g}</svg>`;
+}
+
+const pic=p=>art(p.art,p.col)+(p.img?`<img src="https://images.unsplash.com/photo-${p.img}?auto=format&fit=crop&w=600&h=600&q=70" alt="${esc(p.name)}" loading="lazy">`:'');
+document.addEventListener('error',e=>{if(e.target.tagName==='IMG')e.target.remove()},true);
+/* hero */
+$('#heroArt').innerHTML=`<defs><linearGradient id="hb" x1="0" x2="1"><stop offset="0" stop-color="var(--pink)"/><stop offset="1" stop-color="var(--pinkd)"/></linearGradient></defs>
+<rect x="0" y="272" width="400" height="72" fill="var(--teal)" opacity=".9"/><rect x="0" y="272" width="400" height="8" fill="#000" opacity=".12"/>
+<ellipse cx="200" cy="282" rx="120" ry="12" fill="#000" opacity=".14"/>
+<path d="M150 108c0-60 100-60 100 0" fill="none" stroke="var(--teal)" stroke-width="12" stroke-linecap="round"/>
+<path d="M118 108h164l-14 172H132z" fill="url(#hb)"/><path d="M118 108h40l-10 172h-16z" fill="#fff" opacity=".16"/>
+<path d="M140 150h120M137 190h126M134 230h132" stroke="#f2a900" stroke-width="5" stroke-dasharray="2 12" stroke-linecap="round"/>
+<g transform="translate(18 150) rotate(-8)"><rect width="100" height="100" rx="20" fill="var(--bg)"/><g transform="translate(6 6) scale(.73)">${art('lamp','#f2a900').replace(/<\/?svg[^>]*>/g,'')}</g></g>
+<g transform="translate(286 118) rotate(7)"><rect width="96" height="96" rx="20" fill="var(--bg)"/><g transform="translate(6 6) scale(.7)">${art('scarf','#a3142e').replace(/<\/?svg[^>]*>/g,'')}</g></g>
+<g transform="translate(262 200) rotate(-4)"><rect width="84" height="84" rx="18" fill="var(--bg)"/><g transform="translate(5 5) scale(.62)">${art('mug','#0b6e75').replace(/<\/?svg[^>]*>/g,'')}</g></g>
+<circle cx="70" cy="70" r="7" fill="#f2a900"/><circle cx="340" cy="60" r="5" fill="var(--pink)"/><circle cx="96" cy="44" r="4" fill="var(--teal)"/>`;
+
+/* storefront */
+const cats=()=>['All',...new Set(products.map(p=>p.cat))];
+function renderChips(){$('#chips').innerHTML=cats().map(c=>`<button class="chip" data-cat="${esc(c)}" aria-pressed="${c===cat}">${esc(c)}</button>`).join('')}
+function renderGrid(){
+ let list=products.filter(p=>(cat==='All'||p.cat===cat)&&(!q||(p.name+' '+p.cat).toLowerCase().includes(q)));
+ list=[...list].sort(sort==='low'?(a,b)=>a.price-b.price:sort==='high'?(a,b)=>b.price-a.price:sort==='new'?(a,b)=>b.id-a.id:(a,b)=>b.sold-a.sold);
+ $('#grid').innerHTML=list.length?list.map(p=>{const out=p.stock<=0;return`<article class="card">
+  <button class="thumb" data-qv="${p.id}" aria-label="View ${esc(p.name)}">${pic(p)}${out?'<span class="tag out">Sold out</span>':p.was>p.price?`<span class="tag">Save ${Math.round((1-p.price/p.was)*100)}%</span>`:''}</button>
+  <div class="info"><span class="cat">${esc(p.cat)}</span><h3>${esc(p.name)}</h3>
+  <div class="price">${money(p.price)}${p.was>p.price?`<s>${money(p.was)}</s>`:''}</div>
+  ${!out&&p.stock<=3?`<span class="low">Only ${p.stock} left</span>`:''}
+  <button class="btn" data-add="${p.id}" ${out?'disabled':''}>${out?'Sold out':'Add to cart'}</button></div></article>`}).join(''):`<div class="empty">Nothing matches “${esc(q)}”. Try another word or category.</div>`;
+}
+function renderCount(){$('#count').textContent=cart.reduce((n,l)=>n+l.qty,0)}
+function totals(city='Karachi'){const sub=cart.reduce((s,l)=>{const p=products.find(x=>x.id===l.id);return s+(p?p.price*l.qty:0)},0);const fee=sub===0||sub>=settings.free?0:(/^karachi$/i.test(city.trim())?+settings.fee:+settings.feeOther);return{sub,fee,total:sub+fee}}
+function renderCart(){
+ cart=cart.filter(l=>products.some(p=>p.id===l.id));
+ if(!cart.length){$('#cartBody').innerHTML=`<div class="empty">Your cart is empty.<br><br><button class="btn" data-close>Browse products</button></div>`;$('#cartFoot').innerHTML='';return}
+ $('#cartBody').innerHTML=cart.map(l=>{const p=products.find(x=>x.id===l.id);return`<div class="line"><div class="pic">${pic(p)}</div><div><b>${esc(p.name)}</b><div class="note">${money(p.price)} each</div><div class="qty" style="margin-top:6px"><button data-dec="${p.id}" aria-label="Fewer">−</button><span>${l.qty}</span><button data-inc="${p.id}" aria-label="More">+</button></div></div><b style="white-space:nowrap">${money(p.price*l.qty)}</b></div>`}).join('');
+ const t=totals(),left=settings.free-t.sub;
+ $('#cartFoot').innerHTML=`${left>0?`<div class="note">Add ${money(left)} more for free delivery.</div>`:`<div class="note" style="color:var(--teal);font-weight:800">You've got free delivery.</div>`}
+ <div class="row"><span>Subtotal</span><span>${money(t.sub)}</span></div><div class="row"><span>Delivery</span><span>${t.fee?`${money(settings.fee)} Karachi · ${money(settings.feeOther)} other cities`:'Free'}</span></div>
+ <div class="row total"><span>Total</span><span>${t.fee?'from ':''}${money(t.total)}</span></div><button class="btn" id="toCheckout">Checkout</button>`;
+}
+function add(id,n=1){const p=products.find(x=>x.id===id);const l=cart.find(x=>x.id===id);const have=l?l.qty:0;if(have+n>p.stock){toast(`Only ${p.stock} in stock`);return}l?l.qty+=n:cart.push({id,qty:n});save();renderCount();renderCart();toast(`Added: ${p.name}`)}
+function quick(id){const p=products.find(x=>x.id===id);let n=1;const out=p.stock<=0;
+ $('#qvBody').innerHTML=`<div class="qv"><div class="thumb">${pic(p)}</div><div class="body"><div style="display:flex;justify-content:space-between;gap:8px"><span class="cat">${esc(p.cat)}</span><button class="x" data-close aria-label="Close">×</button></div><h2 style="font-size:26px">${esc(p.name)}</h2>
+ <div class="price" style="font-size:22px">${money(p.price)}${p.was>p.price?`<s>${money(p.was)}</s>`:''}</div><p style="margin:0;color:var(--muted)">${esc(p.desc||DESC[p.cat]||'')}</p>
+ <p class="note" style="margin:0">${out?'Sold out for now.':p.stock<=3?`Only ${p.stock} left.`:'In stock, ready to dispatch.'} Cash on delivery all over Pakistan.</p>
+ <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><div class="qty"><button id="qd" aria-label="Fewer">−</button><span id="qn">1</span><button id="qi" aria-label="More">+</button></div><button class="btn" id="qa" ${out?'disabled':''}>Add to cart</button></div></div></div>`;
+ $('#qd').onclick=()=>{n=Math.max(1,n-1);$('#qn').textContent=n};$('#qi').onclick=()=>{n=Math.min(Math.max(p.stock,1),n+1);$('#qn').textContent=n};
+ $('#qa').onclick=()=>{add(p.id,n);$('#qvDlg').close()};$('#qvDlg').showModal()}
+function checkout(){$('#coTitle').textContent='Checkout';
+ $('#coBody').innerHTML=`<form class="co" id="coForm" novalidate>
+ <label>Full name<input class="f" name="name" autocomplete="name" required></label>
+ <label>Mobile number<input class="f" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="03XX XXXXXXX" required></label>
+ <label>City<input class="f" name="city" list="cities" autocomplete="address-level2" placeholder="Start typing your city" required><datalist id="cities">${CITIES.map(c=>`<option value="${c}">`).join('')}</datalist><span class="note" style="font-weight:500">We deliver all over Pakistan: 2–3 days in Karachi, 3–5 days elsewhere.</span></label>
+ <label>Full address<textarea class="f" name="addr" rows="3" autocomplete="street-address" placeholder="House, street, area, nearby landmark" required></textarea></label>
+ <fieldset class="pay" style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:14px;margin-bottom:6px">Payment</legend>
+ <label><input type="radio" name="pay" value="Cash on delivery" checked> Cash on delivery</label>
+ <label><input type="radio" name="pay" value="JazzCash / Easypaisa"> JazzCash or Easypaisa (details sent on WhatsApp)</label></fieldset>
+ <label>Note for us (optional)<input class="f" name="note"></label>
+ <div class="panel" style="margin:0" id="coSum"></div>
+ <div class="err" id="coErr"></div><button class="btn" type="submit" id="coBtn"></button></form>`;
+ const sum=()=>{const t=totals($('#coForm').city.value||'Karachi');$('#coSum').innerHTML=`<div class="row"><span>Subtotal</span><span>${money(t.sub)}</span></div><div class="row"><span>Delivery</span><span>${t.fee?money(t.fee):'Free'}</span></div><div class="row total"><span>Total</span><span>${money(t.total)}</span></div>${cur!=='PKR'?`<div class="note">Charged in rupees: ${rs(t.total)}</div>`:''}`;$('#coBtn').textContent=`Place order · ${money(t.total)}`};sum();$('#coForm').city.addEventListener('input',sum);
+ $('#coForm').onsubmit=e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));const ph=f.phone.replace(/[\s-]/g,'');
+  if(f.name.trim().length<2)return $('#coErr').textContent='Please enter your name.';
+  if(!/^(\+92|0092|0)?3\d{9}$/.test(ph))return $('#coErr').textContent='Please enter a valid Pakistani mobile number, like 0300 1234567.';
+  if(f.city.trim().length<3)return $('#coErr').textContent='Please enter your city.';
+  if(f.addr.trim().length<10)return $('#coErr').textContent='Please enter your full address so the rider can find you.';
+  const t=totals(f.city);const items=cart.map(l=>{const p=products.find(x=>x.id===l.id);p.stock-=l.qty;p.sold=(p.sold||0)+l.qty;return{id:p.id,name:p.name,qty:l.qty,price:p.price}});
+  const o={no:'RB'+(1001+orders.length),date:new Date().toISOString(),name:f.name.trim(),phone:ph,city:f.city.trim(),addr:f.addr.trim(),pay:f.pay,note:f.note||'',items,sub:t.sub,fee:t.fee,total:t.total,status:'New'};
+  orders.unshift(o);cart=[];save();renderCount();renderCart();renderGrid();
+  const msg=`Assalam o Alaikum! I've placed order ${o.no} on ${settings.name}:\n${items.map(i=>`• ${i.name} × ${i.qty}`).join('\n')}\nTotal: ${rs(o.total)} (${o.pay})\nName: ${o.name}\nAddress: ${o.addr}, ${o.city}`;
+  const wa=settings.wa?`https://wa.me/${settings.wa.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`:'';
+  $('#coTitle').textContent='Order placed';
+  $('#coBody').innerHTML=`<div class="ok"><svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="34" fill="var(--teal)"/><path d="M22 37l10 10 19-21" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h2 style="font-size:24px">Thank you, ${esc(o.name.split(' ')[0])}!</h2><p style="margin:0">Your order number is <b>${o.no}</b>. Total payable: <b>${rs(o.total)}</b>.</p>
+  <p class="note" style="margin:0">Confirm on WhatsApp and we'll dispatch it today.</p>
+  ${wa?`<a class="btn" style="background:#25d366" href="${wa}" target="_blank" rel="noopener">Confirm on WhatsApp</a>`:`<p class="note">WhatsApp confirmation starts working once the store's number is added in Store admin → Settings.</p>`}
+  <button class="btn ghost" data-close>Continue shopping</button></div>`;
+ };$('#coDlg').showModal()}
+
+/* admin */
+const csv=()=>{const h=['Order','Date','Name','Phone','City','Address','Payment','Items','Subtotal','Delivery','Total','Status'];const r=orders.map(o=>[o.no,o.date.slice(0,10),o.name,o.phone,o.city,o.addr,o.pay,o.items.map(i=>i.name+' x'+i.qty).join('; '),o.sub,o.fee,o.total,o.status]);return[h,...r].map(a=>a.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n')};
+function renderAdmin(){
+ const tabs=[['overview','Overview'],['products','Products'],['orders',`Orders (${orders.length})`],['settings','Settings']];
+ $('#atabs').innerHTML=tabs.map(([k,l])=>`<button class="chip" data-atab="${k}" aria-pressed="${k===atab}">${l}</button>`).join('');
+ const P=$('#apanel');
+ if(atab==='overview'){const live=orders.filter(o=>o.status!=='Cancelled');const rev=live.reduce((s,o)=>s+o.total,0);const units=products.reduce((s,p)=>s+(p.sold||0),0);
+  const top=[...products].sort((a,b)=>(b.sold||0)-(a.sold||0));const max=Math.max(1,top[0]?.sold||0);
+  const bar=p=>`<div><span>${esc(p.name)}</span><i style="width:${Math.max(2,(p.sold||0)/max*100)}%"></i><b>${p.sold||0}</b></div>`;
+  P.innerHTML=`<div class="kpis"><div><span class="note">Orders</span><b>${orders.length}</b></div><div><span class="note">Revenue</span><b>${rs(rev)}</b></div><div><span class="note">Average order</span><b>${rs(live.length?rev/live.length:0)}</b></div><div><span class="note">Low stock</span><b>${products.filter(p=>p.stock<=3).length}</b></div></div>
+  <div class="panel"><h3>Best sellers</h3><div class="bars">${top.slice(0,5).map(bar).join('')}</div></div>
+  <div class="panel"><h3>Slow sellers</h3><p class="note" style="margin:4px 0">Worth a discount, a better photo or dropping from the range.</p><div class="bars">${top.slice(-4).reverse().map(bar).join('')}</div></div>
+  <p class="note">Units sold so far: ${units}. Sample sales figures are included so the charts have something to show.</p>`}
+ if(atab==='products'){P.innerHTML=`<div class="panel scroll"><table class="stack"><thead><tr><th>Product</th><th>Category</th><th class="n">Price (Rs)</th><th class="n">Was (Rs)</th><th class="n">Stock</th><th></th></tr></thead><tbody>
+  ${products.map(p=>`<tr><td><input data-f="name" data-id="${p.id}" value="${esc(p.name)}" aria-label="Name"></td><td><input data-f="cat" data-id="${p.id}" value="${esc(p.cat)}" aria-label="Category"></td><td><input data-f="price" data-id="${p.id}" type="number" min="0" value="${p.price}" aria-label="Price"></td><td><input data-f="was" data-id="${p.id}" type="number" min="0" value="${p.was||0}" aria-label="Was price"></td><td><input data-f="stock" data-id="${p.id}" type="number" min="0" value="${p.stock}" aria-label="Stock"></td><td><button class="btn ghost" style="min-height:40px" data-del="${p.id}">Delete</button></td></tr>`).join('')}</tbody></table></div>
+  <button class="btn" id="addP">Add a product</button> <button class="btn ghost" id="resetP">Restore sample products</button>`}
+ if(atab==='orders'){P.innerHTML=orders.length?`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px"><button class="btn teal" id="dl">Download CSV for Excel</button><button class="btn ghost" id="cp">Copy CSV</button></div>
+  <div class="panel scroll"><table class="stack"><thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Phone</th><th>Items</th><th class="n">Total</th><th>Status</th></tr></thead><tbody>
+  ${orders.map((o,i)=>`<tr><td><b>${o.no}</b></td><td>${o.date.slice(0,10)}</td><td>${esc(o.name)}<div class="note">${esc(o.addr)}, ${esc(o.city)}</div></td><td>${esc(o.phone)}</td><td>${o.items.map(x=>esc(x.name)+' × '+x.qty).join('<br>')}</td><td class="n">${rs(o.total)}</td><td><select data-st="${i}" aria-label="Status">${['New','Confirmed','Shipped','Delivered','Cancelled'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>`
+  :`<div class="empty">No orders yet. Place a test order from the shop and it appears here.</div>`}
+ if(atab==='settings'){P.innerHTML=`<form class="co panel" id="setF" style="max-width:560px">
+  <label>Store name<input class="f" name="name" value="${esc(settings.name)}"></label>
+  <label>WhatsApp number (with country code)<input class="f" name="wa" value="${esc(settings.wa)}" placeholder="923001234567"></label>
+  <label>Delivery fee in Karachi (Rs)<input class="f" name="fee" type="number" min="0" value="${settings.fee}"></label>
+  <label>Delivery fee in other cities (Rs)<input class="f" name="feeOther" type="number" min="0" value="${settings.feeOther}"></label>
+  <label>Free delivery over (Rs)<input class="f" name="free" type="number" min="0" value="${settings.free}"></label>
+  <label>Rupees per 1 AED<input class="f" name="aed" type="number" min="1" step="0.01" value="${settings.aed}"></label>
+  <label>Rupees per 1 US dollar<input class="f" name="usd" type="number" min="1" step="0.01" value="${settings.usd}"></label>
+  <button class="btn">Save settings</button></form>`}
+}
+function applySettings(){document.querySelectorAll('#brandName,.bn').forEach(e=>e.textContent=settings.name);document.title=settings.name;
+ $('#notice').textContent=`Cash on delivery all over Pakistan · Free delivery on orders over ${rs(settings.free)}`;$('#feeTxt').textContent=`${rs(settings.fee)} in Karachi and ${rs(settings.feeOther)} elsewhere`;$('#freeTxt').textContent=rs(settings.free);
+ const n=settings.wa.replace(/\D/g,'');$('#waFloat').href=n?`https://wa.me/${n}`:'#faq';$('#waText').textContent=n?`WhatsApp: +${n}`:'WhatsApp: number coming soon'}
+
+function route(){document.querySelectorAll('dialog[open]').forEach(d=>d.close());const a=location.hash==='#admin';document.body.classList.toggle('is-admin',a);if(a){renderAdmin();scrollTo(0,0)}}
+
+/* events */
+document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t)return;const d=t.dataset;
+ if('close' in d){t.closest('dialog')?.close();return}
+ if(d.cat){cat=d.cat;renderChips();renderGrid()}
+ if(d.add)add(+d.add);if(d.qv)quick(+d.qv);
+ if(d.inc)add(+d.inc);
+ if(d.dec){const l=cart.find(x=>x.id===+d.dec);l.qty--;if(l.qty<1)cart=cart.filter(x=>x!==l);save();renderCount();renderCart()}
+ if(t.id==='openCart'){renderCart();$('#cartDlg').showModal()}
+ if(t.id==='toCheckout'){$('#cartDlg').close();checkout()}
+ if(d.atab){atab=d.atab;renderAdmin()}
+ if(d.del){if(t.dataset.sure){products=products.filter(p=>p.id!==+d.del);save();renderAdmin();renderChips();renderGrid()}else{t.dataset.sure=1;t.textContent='Sure?';t.style.borderColor='var(--pink)'}}
+ if(t.id==='addP'){const id=Math.max(0,...products.map(p=>p.id))+1;const k=['lamp','mug','bag','candle','bottle','power'][id%6];products.push({id,name:'New product',cat:'Home',price:1000,was:0,stock:10,art:k,col:['#c2185b','#0b6e75','#f2a900','#3b3f8f'][id%4],sold:0});save();renderAdmin();renderChips();renderGrid();toast('Product added')}
+ if(t.id==='resetP'){products=JSON.parse(JSON.stringify(SAMPLE));save();renderAdmin();renderChips();renderGrid();toast('Sample products restored')}
+ if(t.id==='dl'){try{const u=URL.createObjectURL(new Blob(['﻿'+csv()],{type:'text/csv'}));const a=document.createElement('a');a.href=u;a.download='orders.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}catch(err){toast('Download blocked here: use Copy CSV')}}
+ if(t.id==='cp'){navigator.clipboard.writeText(csv()).then(()=>toast('Copied: paste into Excel'),()=>toast('Copy was blocked by the browser'))}
+});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.dataset.f){const p=products.find(x=>x.id===+t.dataset.id);p[t.dataset.f]=t.type==='number'?Math.max(0,+t.value||0):t.value;save();renderChips();renderGrid();toast('Saved')}
+ if(t.dataset.st!==undefined){orders[+t.dataset.st].status=t.value;save();toast('Status updated')}
+});
+document.addEventListener('submit',e=>{if(e.target.id==='setF'){e.preventDefault();const f=Object.fromEntries(new FormData(e.target));settings={name:f.name.trim()||DEF.name,wa:f.wa.trim(),fee:+f.fee||0,feeOther:+f.feeOther||0,free:+f.free||0,aed:+f.aed||DEF.aed,usd:+f.usd||DEF.usd};save();applySettings();renderGrid();toast('Settings saved')}});
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close()}));
+$('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderGrid()});
+$('#sort').addEventListener('change',e=>{sort=e.target.value;renderGrid()});
+$('#cur').value=cur;$('#cur').addEventListener('change',e=>{cur=e.target.value;S.set('cur',cur);renderGrid();renderCart();if(document.body.classList.contains('is-admin'))renderAdmin()});
+addEventListener('hashchange',route);
+$('#yr').textContent=new Date().getFullYear();
+applySettings();renderChips();renderGrid();renderCount();route();
+}
+</script>
+</body>
+</html>
